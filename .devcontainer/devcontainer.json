@@ -1,0 +1,12 @@
+{
+  "name": "Strength Tracker",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [3000, 5432],
+  "postCreateCommand": "npm install"
+} 
