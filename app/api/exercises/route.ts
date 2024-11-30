@@ -1,15 +1,24 @@
 import { NextResponse } from 'next/server'
-import prisma from '../../../lib/prisma'
+import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
     const exercises = await prisma.exerciseLibrary.findMany()
-    return NextResponse.json(exercises)
+    console.log('API RESPONSE:', exercises)
+    return new NextResponse(JSON.stringify(exercises), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Chyba při načítání cviků' },
-      { status: 500 }
-    )
+    console.error('API ERROR:', error)
+    return new NextResponse(JSON.stringify({ error: 'Database error' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   }
 }
 

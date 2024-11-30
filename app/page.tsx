@@ -148,11 +148,15 @@ export default function WorkoutLogger() {
   }
 
   const filteredExercises = exercises.filter(exercise => {
-    if (selectedMuscleGroups.length === 0) return true;
     if (selectedExercise && !exercise.name.toLowerCase().includes(selectedExercise.toLowerCase())) {
       return false;
     }
-    return exercise.muscleGroups.some((group: string) => selectedMuscleGroups.includes(group));
+    
+    if (selectedMuscleGroups.length === 0) {
+      return true;
+    }
+
+    return selectedMuscleGroups.includes(exercise.category);
   });
 
   return (

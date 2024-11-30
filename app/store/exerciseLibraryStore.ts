@@ -19,9 +19,11 @@ export const useExerciseLibraryStore = create<ExerciseLibraryState>((set) => ({
     try {
       const response = await fetch('/api/exercises')
       const exercises = await response.json()
+      console.log('Store: Received exercises:', exercises)
       set({ exercises })
     } catch (error) {
-      console.error('Chyba při načítání cviků:', error)
+      console.error('Store Error:', error)
+      set({ exercises: [] })
     } finally {
       set({ isLoading: false })
     }
