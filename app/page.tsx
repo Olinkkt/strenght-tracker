@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useWorkoutStore } from './store/workoutStore'
-import { useExerciseLibraryStore } from './store/exerciseLibraryStore'
 import { X } from 'lucide-react'
 
 interface ExerciseInput {
@@ -10,9 +9,16 @@ interface ExerciseInput {
   sets: { weight: number; reps: number }[]
 }
 
+interface Exercise {
+  id: string
+  name: string
+  muscleGroups: string[]
+  category: string
+  description?: string
+}
+
 export default function WorkoutLogger() {
   const addWorkout = useWorkoutStore((state) => state.addWorkout)
-  const exercises = useExerciseLibraryStore((state) => state.exercises)
   
   const [workoutExercises, setWorkoutExercises] = useState<ExerciseInput[]>([])
   const [selectedExercise, setSelectedExercise] = useState('')
@@ -22,6 +28,7 @@ export default function WorkoutLogger() {
   const [showMuscleGroupList, setShowMuscleGroupList] = useState(false)
   const [muscleGroupInput, setMuscleGroupInput] = useState('')
   const [workoutNote, setWorkoutNote] = useState('')
+  const [exercises, setExercises] = useState<Exercise[]>([])
 
   const muscleGroups = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core']
 
@@ -36,6 +43,21 @@ export default function WorkoutLogger() {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        const response = await fetch('/api/exercises')
+        if (!response.ok) throw new Error('Chyba při načítání cviků')
+        const data = await response.json()
+        setExercises(data)
+      } catch (error) {
+        console.error('Chyba při načítání cviků:', error)
+      }
+    }
+
+    fetchExercises()
   }, [])
 
   const handleAddSet = (exerciseIndex: number) => {
@@ -67,21 +89,41 @@ export default function WorkoutLogger() {
     setShowExerciseList(false)
   }
 
-  const handleSaveWorkout = () => {
+  const handleSaveWorkout = async () => {
     if (selectedMuscleGroups.length === 0) {
       alert('Vyberte alespoň jednu svalovou partii')
       return
     }
     if (workoutExercises.length > 0) {
-      addWorkout({
-        date: new Date().toISOString(),
-        exercises: workoutExercises,
-        muscleGroups: selectedMuscleGroups,
-        note: workoutNote || undefined
-      })
-      setWorkoutExercises([])
-      setSelectedMuscleGroups([])
-      setWorkoutNote('')
+      try {
+        const response = await fetch('/api/workouts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date: new Date().toISOString(),
+            muscleGroups: selectedMuscleGroups,
+            exercises: workoutExercises,
+            note: workoutNote || undefined
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('Chyba při ukládání')
+        }
+
+        const data = await response.json()
+        console.log('Uložený workout:', data)
+
+        // Vyčistit formulář
+        setWorkoutExercises([])
+        setSelectedMuscleGroups([])
+        setWorkoutNote('')
+      } catch (error) {
+        alert('Chyba při ukládání workoutu')
+        console.error(error)
+      }
     }
   }
 
@@ -104,6 +146,14 @@ export default function WorkoutLogger() {
     setShowMuscleGroupList(false)
     setMuscleGroupInput('')
   }
+
+  const filteredExercises = exercises.filter(exercise => {
+    if (selectedMuscleGroups.length === 0) return true;
+    if (selectedExercise && !exercise.name.toLowerCase().includes(selectedExercise.toLowerCase())) {
+      return false;
+    }
+    return exercise.muscleGroups.some((group: string) => selectedMuscleGroups.includes(group));
+  });
 
   return (
     <div className="container mx-auto p-4">
@@ -209,18 +259,18 @@ export default function WorkoutLogger() {
             </div>
             {showExerciseList && (
               <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                {exercises
-                  .filter(e => e.name.toLowerCase().includes(selectedExercise.toLowerCase()))
-                  .map(exercise => (
-                    <button
-                      key={exercise.id}
-                      onClick={() => handleAddExercise(exercise.name)}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
-                    >
-                      <span>{exercise.name}</span>
-                      <span className="text-gray-500 text-sm">{exercise.category}</span>
-                    </button>
-                  ))}
+                {filteredExercises.map(exercise => (
+                  <button
+                    key={exercise.id}
+                    onClick={() => handleAddExercise(exercise.name)}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
+                  >
+                    <span>{exercise.name}</span>
+                    <span className="text-gray-500 text-sm">
+                      {exercise.muscleGroups.join(', ')}
+                    </span>
+                  </button>
+                ))}
               </div>
             )}
           </div>

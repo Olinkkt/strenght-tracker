@@ -1,77 +1,72 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { Exercise } from '@/lib/utils'
 
-interface Exercise {
-  id: string
-  name: string
-  category: string
-  description?: string
-}
-
-interface ExerciseLibraryStore {
+interface ExerciseLibraryState {
   exercises: Exercise[]
-  addExercise: (name: string, category: string, description?: string) => void
-  removeExercise: (id: string) => void
-  updateExercise: (id: string, name: string, category: string, description?: string) => void
+  isLoading: boolean
+  addExercise: (name: string, category: string) => Promise<void>
+  removeExercise: (id: string) => Promise<void>
+  updateExercise: (id: string, name: string, category: string, description?: string) => Promise<void>
+  fetchExercises: () => Promise<void>
 }
 
-export const useExerciseLibraryStore = create<ExerciseLibraryStore>()(
-  persist(
-    (set) => ({
-      exercises: [
-        { 
-          id: '1', 
-          name: 'Bench Press', 
-          category: 'Chest',
-          description: 'Lehněte si na lavičku, uchopte činku nadhmatem v šířce ramen. Spusťte činku kontrolovaně k hrudníku a zatlačte zpět nahoru.'
-        },
-        { 
-          id: '2', 
-          name: 'Squat', 
-          category: 'Legs',
-          description: 'Postavte se s činkou na zádech, nohy na šířku ramen. Kontrolovaně se spusťte do dřepu a zpět nahoru.'
-        },
-        { 
-          id: '3', 
-          name: 'Deadlift', 
-          category: 'Back',
-          description: 'Uchopte činku na zemi, záda rovná, pohyb vychází z kyčlí. Zvedněte činku plynulým pohybem nahoru.'
-        },
-        { 
-          id: '4', 
-          name: 'Pull-up', 
-          category: 'Back',
-          description: 'Uchopte hrazdu nadhmatem, přitáhněte se tak, aby brada byla nad hrazdou.'
-        },
-        { 
-          id: '5', 
-          name: 'Military Press', 
-          category: 'Shoulders',
-          description: 'Postavte se vzpřímeně, uchopte činku před rameny. Zatlačte činku vzhůru nad hlavu a kontrolovaně spusťte zpět.'
-        },
-      ],
-      addExercise: (name, category, description) =>
-        set((state) => ({
-          exercises: [...state.exercises, { 
-            id: Date.now().toString(), 
-            name, 
-            category,
-            description
-          }]
-        })),
-      removeExercise: (id) =>
-        set((state) => ({
-          exercises: state.exercises.filter((e) => e.id !== id)
-        })),
-      updateExercise: (id, name, category, description) =>
-        set((state) => ({
-          exercises: state.exercises.map((e) =>
-            e.id === id ? { ...e, name, category, description } : e
-          )
-        })),
-    }),
-    {
-      name: 'exercise-library'
+export const useExerciseLibraryStore = create<ExerciseLibraryState>((set) => ({
+  exercises: [],
+  isLoading: false,
+
+  fetchExercises: async () => {
+    set({ isLoading: true })
+    try {
+      const response = await fetch('/api/exercises')
+      const exercises = await response.json()
+      set({ exercises })
+    } catch (error) {
+      console.error('Chyba při načítání cviků:', error)
+    } finally {
+      set({ isLoading: false })
     }
-  )
-) 
+  },
+
+  addExercise: async (name, category) => {
+    try {
+      const response = await fetch('/api/exercises', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, category })
+      })
+      const newExercise = await response.json()
+      set((state) => ({ exercises: [...state.exercises, newExercise] }))
+    } catch (error) {
+      console.error('Chyba při přidávání cviku:', error)
+    }
+  },
+
+  removeExercise: async (id) => {
+    try {
+      await fetch(`/api/exercises/${id}`, { method: 'DELETE' })
+      set((state) => ({
+        exercises: state.exercises.filter((exercise) => exercise.id !== id)
+      }))
+    } catch (error) {
+      console.error('Chyba při mazání cviku:', error)
+    }
+  },
+
+  updateExercise: async (id, name, category, description) => {
+    try {
+      const response = await fetch(`/api/exercises/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, category, description })
+      })
+      const updatedExercise = await response.json()
+      set((state) => ({
+        exercises: state.exercises.map((exercise) =>
+          exercise.id === id ? updatedExercise : exercise
+        )
+      }))
+    } catch (error) {
+      console.error('Chyba při aktualizaci cviku:', error)
+    }
+  }
+})) 

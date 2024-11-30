@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node scripts/seedExercises.mjs",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.0",
+    "@prisma/client": "^5.9.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
@@ -18,8 +20,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.462.0",
-    "next": "14.2.16",
-    "react": "^18",
+    "next": "^14.2.16",
+    "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "recharts": "^2.13.3",
@@ -28,14 +30,15 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/node": "^20.17.9",
+    "@types/react": "^18.3.12",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.16",
     "postcss": "^8",
-    "prisma": "^6.0.0",
+    "prisma": "^5.9.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "ts-node": "^10.9.1"
   }
 }

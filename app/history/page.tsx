@@ -1,23 +1,51 @@
 'use client'
 
-import { useWorkoutStore } from '../store/workoutStore'
 import { useState, useEffect } from 'react'
 import { WorkoutStats } from '../components/WorkoutStats'
 import { exportData, importData } from '../components/DataManagement'
 
-import type { WorkoutSession } from '../store/workoutStore'
+interface Set {
+  id: string
+  weight: number
+  reps: number
+}
+
+interface Exercise {
+  id: string
+  name: string
+  sets: Set[]
+}
+
+interface Workout {
+  id: string
+  date: string
+  muscleGroups: string[]
+  exercises: Exercise[]
+  note?: string
+}
 
 export default function HistoryPage() {
   const [isClient, setIsClient] = useState(false)
-  const workouts = useWorkoutStore((state) => state.workouts)
-  const addWorkout = useWorkoutStore((state) => state.addWorkout)
-  const removeWorkout = useWorkoutStore((state) => state.removeWorkout)
+  const [workouts, setWorkouts] = useState<Workout[]>([])
   const [dateFilter, setDateFilter] = useState({ from: '', to: '' })
   const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<string[]>([])
 
   const muscleGroups = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core']
 
+  // Načtení workoutů z API
   useEffect(() => {
+    const fetchWorkouts = async () => {
+      try {
+        const response = await fetch('/api/workouts')
+        if (!response.ok) throw new Error('Chyba při načítání')
+        const data = await response.json()
+        setWorkouts(data)
+      } catch (error) {
+        console.error('Chyba při načítání workoutů:', error)
+      }
+    }
+
+    fetchWorkouts()
     setIsClient(true)
   }, [])
 
@@ -33,19 +61,49 @@ export default function HistoryPage() {
     .filter(w => selectedMuscleGroups.length === 0 || 
       selectedMuscleGroups.some(group => w.muscleGroups?.includes(group)))
 
-  const handleCopyWorkout = (workout: WorkoutSession) => {
-    const { exercises, muscleGroups, note } = workout
-    addWorkout({
-      date: new Date().toISOString(),
-      exercises: [...exercises],
-      muscleGroups: [...muscleGroups],
-      note
-    })
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Opravdu chcete smazat tento trénink?')) {
+      try {
+        const response = await fetch(`/api/workouts/${id}`, {
+          method: 'DELETE'
+        })
+        if (!response.ok) throw new Error('Chyba při mazání')
+        setWorkouts(workouts.filter(w => w.id !== id))
+      } catch (error) {
+        console.error('Chyba při mazání workoutu:', error)
+      }
+    }
   }
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Opravdu chcete smazat tento trénink?')) {
-      removeWorkout(id)
+  const handleCopyWorkout = async (workout: Workout) => {
+    try {
+      const response = await fetch('/api/workouts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: new Date().toISOString(),
+          muscleGroups: workout.muscleGroups,
+          exercises: workout.exercises.map(exercise => ({
+            name: exercise.name,
+            sets: exercise.sets.map(set => ({
+              weight: set.weight,
+              reps: set.reps
+            }))
+          })),
+          note: workout.note
+        })
+      })
+
+      if (!response.ok) throw new Error('Chyba při kopírování')
+      
+      // Znovu načteme workouty pro aktualizaci seznamu
+      const updatedWorkouts = await fetch('/api/workouts').then(res => res.json())
+      setWorkouts(updatedWorkouts)
+    } catch (error) {
+      console.error('Chyba při kopírování workoutu:', error)
+      alert('Chyba při kopírování workoutu')
     }
   }
 

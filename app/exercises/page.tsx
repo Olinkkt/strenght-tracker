@@ -1,15 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useExerciseLibraryStore } from '../store/exerciseLibraryStore'
 import { X } from 'lucide-react'
-
-interface EditingExercise {
-  id: string
-  name: string
-  category: string
-  description?: string
-}
+import { Exercise, EditingExercise } from '@/lib/utils'
 
 interface ExerciseDetailModalProps {
   exercise: EditingExercise
@@ -64,7 +58,13 @@ const ExerciseDetailModal = ({ exercise, onClose, onEdit }: ExerciseDetailModalP
 }
 
 export default function ExerciseLibrary() {
-  const { exercises, addExercise, removeExercise, updateExercise } = useExerciseLibraryStore()
+  const { 
+    exercises, 
+    fetchExercises, 
+    addExercise, 
+    removeExercise, 
+    updateExercise 
+  } = useExerciseLibraryStore()
   const [newExercise, setNewExercise] = useState({ name: '', category: '' })
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
@@ -73,16 +73,20 @@ export default function ExerciseLibrary() {
 
   const categories = ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core']
 
-  const handleAddExercise = () => {
+  useEffect(() => {
+    fetchExercises()
+  }, [fetchExercises])
+
+  const handleAddExercise = async () => {
     if (newExercise.name && newExercise.category) {
-      addExercise(newExercise.name, newExercise.category)
+      await addExercise(newExercise.name, newExercise.category)
       setNewExercise({ name: '', category: '' })
     }
   }
 
-  const handleUpdateExercise = () => {
+  const handleUpdateExercise = async () => {
     if (editingExercise) {
-      updateExercise(
+      await updateExercise(
         editingExercise.id,
         editingExercise.name,
         editingExercise.category,
@@ -94,10 +98,11 @@ export default function ExerciseLibrary() {
 
   const filteredExercises = exercises
     .filter(e => selectedCategory === 'all' || e.category === selectedCategory)
-    .filter(e => 
-      e.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      e.category.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    .filter(e => {
+      if (!e.category) return false
+      return e.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+             e.category.toLowerCase().includes(searchQuery.toLowerCase())
+    })
 
   const editingForm = (
     <div className="space-y-2">
@@ -156,8 +161,24 @@ export default function ExerciseLibrary() {
     </div>
   )
 
-  const handleOpenDetail = (exercise: EditingExercise) => {
-    setSelectedExercise(exercise)
+  const handleOpenDetail = (exercise: Exercise) => {
+    const editingExercise: EditingExercise = {
+      id: exercise.id,
+      name: exercise.name,
+      category: exercise.category || '',
+      description: exercise.description
+    }
+    setSelectedExercise(editingExercise)
+  }
+
+  const handleEditExercise = (exercise: Exercise) => {
+    const editingExercise: EditingExercise = {
+      id: exercise.id,
+      name: exercise.name,
+      category: exercise.category || '',
+      description: exercise.description
+    }
+    setEditingExercise(editingExercise)
   }
 
   return (
@@ -254,7 +275,7 @@ export default function ExerciseLibrary() {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => setEditingExercise(exercise)}
+                    onClick={() => handleEditExercise(exercise)}
                     className="text-blue-500 hover:text-blue-700"
                   >
                     Upravit
