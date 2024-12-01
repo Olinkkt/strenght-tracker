@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Tato aplikace je určena pro sledování silových tréninků. Umožňuje uživatelům zaznamenávat pokroky v různých cvicích, sledovat osobní rekordy a efektivně monitorovat zlepšení v rámci silového tréninku.
 
-## Getting Started
+## Začínáme
 
-First, run the development server:
+Pro začátek si naklonujte tento repozitář a nainstalujte potřebné závislosti:
+
+```bash
+git clone https://github.com/Olinkkt/strength-tracker.git
+cd strength-tracker
+npm install
+```
+
+Poté spusťte vývojový server:
 
 ```bash
 npm run dev
-# or
+# nebo
 yarn dev
-# or
+# nebo
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Otevřete svůj prohlížeč a navštivte http://localhost:3000, abyste viděli aplikaci v akci.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Začátek upráv
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pro úpravy aplikace modifikujte soubory v app/page.tsx nebo v jiných komponentách. Stránka se automaticky aktualizuje při změnách.
 
-## Learn More
+## Funkce
 
-To learn more about Next.js, take a look at the following resources:
+- Sledování tréninků
+- Záznam výkonů
+- Přehled o pokroku
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js (framework pro React)
+- Typescript (pro bezpečnost typů)
+- Shadcn UI (pro tvorbu uživatelského rozhraní)
