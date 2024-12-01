@@ -61,8 +61,8 @@ export default function WorkoutLogger() {
   }, [])
 
   const handleAddSet = (exerciseIndex: number) => {
-    if (currentSet.weight <= 0) {
-      alert('Váha musí být větší než 0')
+    if (currentSet.weight < 0) {
+      alert('Váha nemůže být záporná')
       return
     }
     if (currentSet.weight > 1000) {
@@ -319,6 +319,8 @@ export default function WorkoutLogger() {
                 placeholder="Váha (kg)"
                 className="w-24 p-2 border rounded"
                 min="0"
+                step="0.1"
+                required
               />
               <input
                 type="number"
