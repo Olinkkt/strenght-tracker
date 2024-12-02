@@ -1,0 +1,264 @@
+{
+  "exercises": [
+    { 
+      "name": "Bench Press",
+      "muscleGroups": ["Chest", "Arms", "Shoulders"],
+      "category": "Chest",
+      "description": "Lehněte si na lavičku, uchopte činku nadhmatem v šířce ramen. Spusťte činku kontrolovaně k hrudníku a zatlačte zpět nahoru.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    { 
+      "name": "Push-up",
+      "muscleGroups": ["Chest", "Arms", "Shoulders", "Core"],
+      "category": "Chest",
+      "description": "Vzpor ležmo, ruce na šířku ramen. Spusťte se kontrolovaně dolů, lokty u těla, a zatlačte zpět nahoru.",
+      "requiresWeight": false,
+      "difficulty": "easy",
+      "exerciseType": "compound",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Squat",
+      "muscleGroups": ["Legs", "Core"],
+      "category": "Legs",
+      "description": "Postavte se s činkou na zádech, nohy na šířku ramen. Kontrolovaně se spusťte do dřepu a zpět nahoru.",
+      "requiresWeight": true,
+      "difficulty": "hard",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Deadlift",
+      "muscleGroups": ["Back", "Legs", "Core"],
+      "category": "Back",
+      "description": "Uchopte činku na zemi, záda rovná, pohyb vychází z kyčlí. Zvedněte činku plynulým pohybem nahoru.",
+      "requiresWeight": true,
+      "difficulty": "hard",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Pull-up",
+      "muscleGroups": ["Back", "Arms"],
+      "category": "Back",
+      "description": "Uchopte hrazdu nadhmatem, přitáhněte se tak, aby brada byla nad hrazdou.",
+      "requiresWeight": false,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Military Press",
+      "muscleGroups": ["Shoulders", "Arms", "Core"],
+      "category": "Shoulders",
+      "description": "Postavte se vzpřímeně, uchopte činku před rameny. Zatlačte činku vzhůru nad hlavu a kontrolovaně spusťte zpět.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Lateral Raise",
+      "muscleGroups": ["Shoulders"],
+      "category": "Shoulders",
+      "description": "Stůjte s jednoručkami podél těla. Zvedejte paže do stran až do úrovně ramen, lokty mírně pokrčené.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Bicep Curl",
+      "muscleGroups": ["Arms"],
+      "category": "Arms",
+      "description": "Uchopte činku podhmatem na šířku ramen. Ohýbejte lokty a zvedejte činku k ramenům, spusťte zpět dolů.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Tricep Extension",
+      "muscleGroups": ["Arms"],
+      "category": "Arms",
+      "description": "Uchopte jednoručku oběma rukama za hlavou. Propněte lokty a zvedněte činku nad hlavu, pomalu spusťte zpět.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Leg Press",
+      "muscleGroups": ["Legs", "Core"],
+      "category": "Legs",
+      "description": "Sedněte na stroj, nohy na plošině na šířku ramen. Spusťte váhu kontrolovaně dolů a zatlačte zpět nahoru.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "machine"
+    },
+    {
+      "name": "Cable Crossover",
+      "muscleGroups": ["Chest", "Shoulders"],
+      "category": "Chest",
+      "description": "Stůjte mezi kabelovými kladkami, uchopte madla. Ohněte lokty a přitáhněte ruce k sobě před tělem, poté pomalu vraťte zpět.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "cables"
+    },
+    {
+      "name": "Lat Pulldown",
+      "muscleGroups": ["Back", "Arms"],
+      "category": "Back",
+      "description": "Sedněte na stroj s širokým úchopem. Táhněte tyč směrem k hrudníku a kontrolovaně vraťte zpět.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "machine"
+    },
+    {
+      "name": "Dips",
+      "muscleGroups": ["Chest", "Arms", "Shoulders"],
+      "category": "Chest",
+      "description": "Uchopte bradla, ruce propnuté. Spusťte se kontrolovaně dolů, lokty u těla, a vytlačte se zpět nahoru.",
+      "requiresWeight": false,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Plank",
+      "muscleGroups": ["Core"],
+      "category": "Core",
+      "description": "Vzpor na předloktích, tělo v jedné rovině. Zpevněte břicho a držte pozici po určený čas.",
+      "requiresWeight": false,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Crunches",
+      "muscleGroups": ["Core"],
+      "category": "Core",
+      "description": "Lehněte si, nohy pokrčené, ruce za hlavou. Zvedejte horní část těla směrem ke kolenům a pomalu zpět.",
+      "requiresWeight": false,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Romanian Deadlift",
+      "muscleGroups": ["Back", "Legs"],
+      "category": "Back",
+      "description": "Stůjte s činkou před stehny, nohy mírně pokrčené. S rovnými zády spouštějte činku podél stehen dolů a zpět.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Face Pull",
+      "muscleGroups": ["Shoulders", "Back"],
+      "category": "Shoulders",
+      "description": "Na horní kladce uchopte lano, táhněte směrem k obličeji, lokty do stran, a kontrolovaně pouštějte zpět.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "compound",
+      "equipmentType": "cables"
+    },
+    {
+      "name": "Leg Extension",
+      "muscleGroups": ["Legs"],
+      "category": "Legs",
+      "description": "Sedněte na stroj, háky za kotníky. Propínejte nohy do plné extenze a kontrolovaně spouštějte zpět.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "machine"
+    },
+    {
+      "name": "Incline Bench Press",
+      "muscleGroups": ["Chest", "Shoulders", "Arms"],
+      "category": "Chest",
+      "description": "Lehněte si na šikmou lavici, uchopte činku nadhmatem. Spusťte činku kontrolovaně k horní části hrudníku a zatlačte zpět.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Decline Push-ups",
+      "muscleGroups": ["Chest", "Arms", "Shoulders"],
+      "category": "Chest",
+      "description": "Nohy položte na vyvýšenou podložku, ruce na zemi. Spusťte se kontrolovaně dolů a vytlačte zpět.",
+      "requiresWeight": false,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "bodyweight"
+    },
+    {
+      "name": "Bulgarian Split Squat",
+      "muscleGroups": ["Legs", "Core"],
+      "category": "Legs",
+      "description": "Zadní nohu položte na lavičku, přední nohou proveďte dřep. Držte rovná záda a kontrolovaně se vraťte.",
+      "requiresWeight": true,
+      "difficulty": "hard",
+      "exerciseType": "compound",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Hammer Curls",
+      "muscleGroups": ["Arms"],
+      "category": "Arms",
+      "description": "Uchopte jednoručky neutrálním úchopem, dlaně směřují k sobě. Ohýbejte lokty a zvedejte činky k ramenům.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Overhead Tricep Extension",
+      "muscleGroups": ["Arms"],
+      "category": "Arms",
+      "description": "Uchopte jednoručku nad hlavou, spusťte ji za hlavu ohnutím loktů a vytlačte zpět nahoru.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "weights"
+    },
+    {
+      "name": "Leg Curl",
+      "muscleGroups": ["Legs"],
+      "category": "Legs",
+      "description": "Lehněte si na stroj břichem dolů, háky za kotníky. Ohýbejte nohy v kolenou a kontrolovaně spouštějte.",
+      "requiresWeight": true,
+      "difficulty": "easy",
+      "exerciseType": "isolation",
+      "equipmentType": "machine"
+    },
+    {
+      "name": "Seated Cable Row",
+      "muscleGroups": ["Back", "Arms"],
+      "category": "Back",
+      "description": "Sedněte si k spodní kladce, uchopte madlo a přitahujte ho k břichu se zpevněným středem těla.",
+      "requiresWeight": true,
+      "difficulty": "medium",
+      "exerciseType": "compound",
+      "equipmentType": "cables"
+    },
+    {
+      "name": "Hanging Leg Raise",
+      "muscleGroups": ["Core", "Arms"],
+      "category": "Core",
+      "description": "Zavěste se na hrazdu, zvedejte napnuté nebo pokrčené nohy kontrolovaným pohybem.",
+      "requiresWeight": false,
+      "difficulty": "medium",
+      "exerciseType": "isolation",
+      "equipmentType": "bodyweight"
+    }
+  ]
+} 

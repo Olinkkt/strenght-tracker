@@ -14,6 +14,8 @@ model Workout {
   note         String?
   exercises    Exercise[] @relation("WorkoutToExercise")
   createdAt    DateTime   @default(now())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
 }
 
 model Exercise {
@@ -33,9 +35,25 @@ model Set {
 }
 
 model ExerciseLibrary {
-  id           String   @id @default(cuid())
-  name         String   @unique
-  muscleGroups String[]
-  category     String
-  description  String?
+  id              String   @id @default(cuid())
+  name            String   @unique
+  muscleGroups    String[]
+  category        String
+  description     String?
+  requiresWeight  Boolean  @default(true)
+  difficulty      String   @default("medium") // "easy", "medium", "hard"
+  exerciseType    String   @default("compound") // "compound", "isolation"
+  equipmentType   String   @default("weights") // "machine", "bodyweight", "weights", "cables"
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  workouts      Workout[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 } 

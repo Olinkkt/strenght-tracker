@@ -4,6 +4,52 @@ import { useState, useEffect } from 'react'
 import { Exercise } from '@/lib/utils'
 import { useExerciseLibraryStore } from '../store/exerciseLibraryStore'
 import { Button } from '@/components/ui/button'
+import { Tooltip } from '@/components/ui/Tooltip'
+import { 
+  Info, 
+  Dumbbell,  // pro weights
+  Monitor,    // pro machine
+  Cable,      // pro cables
+  User,       // pro bodyweight
+  Combine,    // pro compound
+  Focus       // pro isolation
+} from 'lucide-react'
+
+// Pomocná komponenta pro ikonu cviku
+function ExerciseTypeIcon({ type }: { type: 'compound' | 'isolation' }) {
+  return (
+    <Tooltip text={type === 'compound' ? 'Komplexní cvik' : 'Izolovaný cvik'}>
+      {type === 'compound' ? (
+        <Combine className="w-4 h-4 text-blue-500" />
+      ) : (
+        <Focus className="w-4 h-4 text-green-500" />
+      )}
+    </Tooltip>
+  )
+}
+
+// Pomocná komponenta pro ikonu vybavení
+function EquipmentIcon({ type }: { type: 'machine' | 'bodyweight' | 'weights' | 'cables' }) {
+  const icons = {
+    machine: <Monitor className="w-4 h-4 text-purple-500" />,
+    bodyweight: <User className="w-4 h-4 text-gray-500" />,
+    weights: <Dumbbell className="w-4 h-4 text-red-500" />,
+    cables: <Cable className="w-4 h-4 text-yellow-500" />
+  }
+
+  const labels = {
+    machine: 'Stroj',
+    bodyweight: 'Vlastní váha',
+    weights: 'Činky/Závaží',
+    cables: 'Kladky'
+  }
+
+  return (
+    <Tooltip text={labels[type]}>
+      {icons[type]}
+    </Tooltip>
+  )
+}
 
 export default function LogWorkout() {
   const { exercises, fetchExercises } = useExerciseLibraryStore()
@@ -57,9 +103,21 @@ export default function LogWorkout() {
             <button
               key={exercise.id}
               onClick={() => setSelectedExercises(prev => [...prev, exercise])}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded"
+              className="w-full text-left p-2 hover:bg-gray-100 rounded flex items-center justify-between"
             >
-              {exercise.name} ({exercise.category})
+              <div className="flex items-center gap-2">
+                <span>{exercise.name}</span>
+                <div className="flex gap-1">
+                  <ExerciseTypeIcon type={exercise.exerciseType} />
+                  <EquipmentIcon type={exercise.equipmentType} />
+                </div>
+                <Tooltip text={exercise.description}>
+                  <Info className="w-4 h-4 text-gray-400" />
+                </Tooltip>
+              </div>
+              <span className="text-sm text-gray-500">
+                {exercise.muscleGroups.join(', ')}
+              </span>
             </button>
           ))}
         </div>

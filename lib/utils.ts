@@ -19,8 +19,13 @@ export type MuscleGroup = typeof MUSCLE_GROUPS[keyof typeof MUSCLE_GROUPS]
 export interface Exercise {
   id: string
   name: string
-  category: MuscleGroup
-  description?: string
+  muscleGroups: string[]
+  category: string
+  description: string
+  requiresWeight: boolean
+  difficulty: 'easy' | 'medium' | 'hard'
+  exerciseType: 'compound' | 'isolation'
+  equipmentType: 'machine' | 'bodyweight' | 'weights' | 'cables'
 }
 
 export type EditingExercise = Required<Pick<Exercise, 'id' | 'name' | 'category'>> & {
