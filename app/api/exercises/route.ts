@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       }
     })
     return NextResponse.json(exercise)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Chyba při vytváření cviku' },
       { status: 500 }

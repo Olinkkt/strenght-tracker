@@ -11,7 +11,7 @@ interface PlannedWorkout {
 
 export default function PlannerPage() {
   const [/* workoutPlans, setWorkoutPlans */] = useState<PlannedWorkout[]>([])
-  const exercises = useExerciseLibraryStore((state) => state.exercises)
+  // const exercises = useExerciseLibraryStore((state) => state.exercises)
 
   // Implementace plánování tréninků...
 }
