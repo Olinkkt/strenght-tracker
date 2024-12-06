@@ -14,6 +14,14 @@ type WorkoutData = {
   }[]
 }
 
+type ExerciseInput = {
+  name: string
+  sets: {
+    weight: number
+    reps: number
+  }[]
+}
+
 export async function POST(request: Request) {
   try {
     console.log('POST request začal')
@@ -27,10 +35,11 @@ export async function POST(request: Request) {
         muscleGroups: data.muscleGroups,
         note: data.note,
         exercises: {
-          create: data.exercises.map((exercise: any) => ({
-            name: exercise.name,
+          create: data.exercises.map((exercise) => ({
+            name: exercise.exerciseId,
+            exerciseId: exercise.exerciseId,
             sets: {
-              create: exercise.sets.map((set: any) => ({
+              create: exercise.sets.map((set) => ({
                 weight: set.weight,
                 reps: set.reps
               }))
@@ -49,14 +58,9 @@ export async function POST(request: Request) {
     console.log('Workout úspěšně vytvořen:', workout)
 
     return NextResponse.json(workout)
-  } catch (error) {
-    console.error('Detailní chyba:', error)
-    if (error instanceof Error) {
-      console.error('Error message:', error.message)
-      console.error('Error stack:', error.stack)
-    }
+  } catch {
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Neznámá chyba' },
+      { error: 'Interní chyba serveru' },
       { status: 500 }
     )
   }
@@ -77,7 +81,7 @@ export async function GET() {
       }
     })
     return NextResponse.json(workouts)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Interní chyba serveru' },
       { status: 500 }

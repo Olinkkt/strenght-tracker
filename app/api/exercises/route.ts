@@ -11,8 +11,8 @@ export async function GET() {
         'Content-Type': 'application/json',
       },
     })
-  } catch (error) {
-    console.error('API ERROR:', error)
+  } catch {
+    console.error('API ERROR:', 'Database error')
     return new NextResponse(JSON.stringify({ error: 'Database error' }), {
       status: 500,
       headers: {
