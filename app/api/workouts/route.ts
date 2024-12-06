@@ -14,12 +14,14 @@ type WorkoutData = {
   }[]
 }
 
+type SetInput = {
+  weight: number
+  reps: number
+}
+
 type ExerciseInput = {
-  name: string
-  sets: {
-    weight: number
-    reps: number
-  }[]
+  exerciseId: string
+  sets: SetInput[]
 }
 
 export async function POST(request: Request) {
