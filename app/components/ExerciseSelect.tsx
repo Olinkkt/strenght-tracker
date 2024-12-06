@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useExerciseLibraryStore } from '../store/exerciseLibraryStore'
 import { Exercise, MuscleGroup } from '@/lib/utils'
 import {

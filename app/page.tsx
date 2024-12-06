@@ -18,7 +18,7 @@ interface Exercise {
 }
 
 export default function WorkoutLogger() {
-  const addWorkout = useWorkoutStore((state) => state.addWorkout)
+  const { workouts } = useWorkoutStore()
   
   const [workoutExercises, setWorkoutExercises] = useState<ExerciseInput[]>([])
   const [selectedExercise, setSelectedExercise] = useState('')

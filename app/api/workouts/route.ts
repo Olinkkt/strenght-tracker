@@ -1,20 +1,33 @@
 import { NextResponse } from 'next/server'
 import prisma from '../../../lib/prisma'
 
+type WorkoutData = {
+  date: string
+  muscleGroups: string[]
+  note?: string
+  exercises: {
+    exerciseId: string
+    sets: {
+      reps: number
+      weight: number
+    }[]
+  }[]
+}
+
 export async function POST(request: Request) {
   try {
     console.log('POST request začal')
-    const body = await request.json()
-    console.log('Přijatá data:', body)
+    const data: WorkoutData = await request.json()
+    console.log('Přijatá data:', data)
     
     console.log('Pokus o připojení k databázi...')
     const workout = await prisma.workout.create({
       data: {
-        date: body.date,
-        muscleGroups: body.muscleGroups,
-        note: body.note,
+        date: data.date,
+        muscleGroups: data.muscleGroups,
+        note: data.note,
         exercises: {
-          create: body.exercises.map((exercise: any) => ({
+          create: data.exercises.map((exercise: any) => ({
             name: exercise.name,
             sets: {
               create: exercise.sets.map((set: any) => ({

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useExerciseLibraryStore } from '../store/exerciseLibraryStore'
-import { Exercise } from '@/lib/utils'
 
 export default function ExerciseLibrary() {
   const { exercises, fetchExercises } = useExerciseLibraryStore()
